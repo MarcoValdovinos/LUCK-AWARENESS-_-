@@ -1,0 +1,52 @@
+{
+  "protocol": "https://example.org/pcs/0.1",
+  "manifest_id": "0f2e291d-9fb9-4d62-bfb6-bf0c22b38c21",
+  "created_at": "2026-11-05T12:00:00Z",
+  "project": {
+    "project_id": "urn:uuid:7d5f2f39-7e2c-4a48-94c8-a8d7a120c7d4",
+    "title": "Ejemplo educativo",
+    "description": "Ejemplo ficticio para ilustrar PCS 0.1."
+  },
+  "participants": [
+    {
+      "participant_id": "person-001",
+      "kind": "human",
+      "display_name": "Participante A",
+      "role": "dirección y selección",
+      "identity_status": "self-asserted"
+    },
+    {
+      "participant_id": "ai-001",
+      "kind": "ai_system",
+      "display_name": "Sistema de generación de ejemplo",
+      "role": "asistencia en borradores",
+      "system": {
+        "provider": "unknown",
+        "model": "unknown",
+        "version": "unknown"
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "artifact-001",
+      "version_id": "v1",
+      "label": "Borrador final",
+      "media_type": "text/plain",
+      "byte_length": 0,
+      "digest": {
+        "algorithm": "sha-256",
+        "value": "REPLACE_WITH_64_LOWERCASE_HEX_CHARACTERS"
+      },
+      "availability": "external"
+    }
+  ],
+  "event_log": {
+    "format": "pcs-json-events-v0.1",
+    "events_uri": "./events/",
+    "first_sequence": 0,
+    "last_sequence": 1,
+    "last_event_hash": "REPLACE_WITH_64_LOWERCASE_HEX_CHARACTERS"
+  },
+  "disclaimer": "Las contribuciones y roles son declaraciones; este manifiesto no adjudica autoría ni derechos."
+}
