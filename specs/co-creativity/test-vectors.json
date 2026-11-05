@@ -1,0 +1,72 @@
+{
+  "description": "Vectores de prueba positivos y negativos para el Protocolo de Co-Creatividad Simbiótica (PCS 0.1)",
+  "vectors": [
+    {
+      "id": "TC-001-VALID-GENESIS",
+      "description": "Evento génesis válido con hash SHA-256 correcto.",
+      "expected_result": true,
+      "event": {
+        "protocol": "https://example.org/pcs/0.1",
+        "project_id": "urn:uuid:7d5f2f39-7e2c-4a48-94c8-a8d7a120c7d4",
+        "sequence": 0,
+        "event_id": "urn:uuid:9f22bd08-59f5-4b90-9d81-7f51f13c9821",
+        "event_type": "project_created",
+        "occurred_at": "2026-11-05T12:00:00Z",
+        "recorded_at": "2026-11-05T12:00:00Z",
+        "actor_id": "person-001",
+        "previous_event_hash": null,
+        "data": {
+          "manifest_id": "0f2e291d-9fb9-4d62-bfb6-bf0c22b38c21"
+        },
+        "event_hash": {
+          "algorithm": "sha-256",
+          "value": "REEMPLAZA_CON_EL_HASH_CALCULADO_EN_NODEJS"
+        },
+        "signature": null
+      }
+    },
+    {
+      "id": "TC-002-VALID-CHAIN",
+      "description": "Segundo evento que enlaza correctamente con el hash del evento génesis.",
+      "expected_result": true,
+      "previous_event": "urn:uuid:9f22bd08-59f5-4b90-9d81-7f51f13c9821",
+      "event": {
+        "protocol": "https://example.org/pcs/0.1",
+        "project_id": "urn:uuid:7d5f2f39-7e2c-4a48-94c8-a8d7a120c7d4",
+        "sequence": 1,
+        "event_id": "urn:uuid:4856d487-3c0a-4c5d-b04f-718873a9e2a1",
+        "event_type": "contribution_declared",
+        "occurred_at": "2026-11-05T12:10:00Z",
+        "recorded_at": "2026-11-05T12:11:00Z",
+        "actor_id": "person-001",
+        "previous_event_hash": "REEMPLAZA_CON_EL_HASH_DEL_TC-001",
+        "data": {
+          "contribution_id": "contribution-001",
+          "participant_id": "person-001",
+          "action": "selected_and_revised"
+        },
+        "event_hash": {
+          "algorithm": "sha-256",
+          "value": "REEMPLAZA_CON_EL_HASH_CALCULADO_EN_NODEJS"
+        },
+        "signature": null
+      }
+    },
+    {
+      "id": "TC-003-NEGATIVE-BAD-HASH",
+      "description": "Evento manipulado. El hash calculado no coincide con el declarado.",
+      "expected_result": false,
+      "event": {
+        "sequence": 0,
+        "event_id": "urn:uuid:9f22bd08-59f5-4b90-9d81-7f51f13c9821",
+        "data": {
+          "message": "Este texto fue alterado después de calcular el hash original."
+        },
+        "event_hash": {
+          "algorithm": "sha-256",
+          "value": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      }
+    }
+  ]
+}
