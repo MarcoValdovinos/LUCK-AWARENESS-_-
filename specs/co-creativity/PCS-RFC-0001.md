@@ -461,6 +461,26 @@ Para garantizar la interoperabilidad, el repositorio incluye un archivo `test-ve
 Los vectores cubren:
 - **Pruebas positivas:** Hashes correctos, encadenamiento válido y firmas Ed25519 correctas.
 - **Pruebas negativas:** Alteración de bytes (hash incorrecto), salto de secuencia, y enlaces de cadena rotos.
+
+
+
+## 19. Formatos de Fecha y Hora (RFC 3339)
+
+Para garantizar la interoperabilidad global y evitar ambigüedades en las marcas de tiempo, PCS 0.1 exige que todos los campos temporales (`occurred_at`, `recorded_at` y cualquier otro campo de fecha) cumplan estrictamente con el estándar **RFC 3339** (Perfil de ISO 8601 para Internet).
+
+### 19.1. Reglas de Formato
+1. **Fecha completa:** `YYYY-MM-DD`.
+2. **Separador:** La letra `T` (mayúscula).
+3. **Hora completa:** `hh:mm:ss`.
+4. **Fracciones de segundo:** Opcionales (`hh:mm:ss.SSS`).
+5. **Offset obligatorio:** Se DEBE indicar la zona horaria usando `Z` (para UTC) o un offset numérico (`+hh:mm` o `-hh:mm`).
+6. **Prohibición:** NO se permite el uso de zonas horarias alfabéticas (ej. "PST", "EST") ni el uso de tiempos locales sin offset.
+7. **Segundos Bisiestos:** Un segundo bisiesto (ej. `1990-12-31T23:59:60Z`) es válido bajo este perfil y DEBE ser aceptado por el validador.
+
+### 19.2. Ejemplos Válidos
+- `2026-11-05T12:00:00Z` (UTC)
+- `2026-11-05T12:00:00.500Z` (UTC con milisegundos)
+- `2026-11-05T06:00:00-06:00` (Hora local de México con offset)
 ---
 
 **Fin de PCS-RFC-0001, versión 0.1.0-draft.**
