@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRONOS · Análisis de Campaña</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+</head>
+<body>
+    <header>
+        <h1>🎯 Análisis de Campaña</h1>
+        <p>Desglose detallado de URLs, correos y patrones detectados</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Resultados de la Extracción</h2>
+            <div id="campaign-details" class="details-box">
+                <p style="color:#888;">No hay datos de campaña cargados. Analiza un mensaje en la página principal primero.</p>
+            </div>
+            <a href="index.html" class="btn-secondary" style="display:block; text-align:center; text-decoration:none; margin-top:20px;">← Volver al Inicio</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>◯_● · 51/49/100 · KRONOS Luck-Awareness</p>
+    </footer>
+
+    <script src="js/hash-utils.js"></script>
+    <script src="js/campaign-parser.js"></script>
+    <script>
+        // Cargar la última evidencia guardada para mostrar los detalles
+        document.addEventListener('DOMContentLoaded', () => {
+            const history = JSON.parse(localStorage.getItem('kronos_evidence') || '[]');
+            const container = document.getElementById('campaign-details');
+            
+            if (history.length > 0) {
+                const latest = history[history.length - 1];
+                
+                let urlsHtml = latest.urls.length > 0 
+                    ? latest.urls.map(u => `<li><a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a></li>`).join('')
+                    : '<li>Ninguna URL detectada</li>';
+                    
+                let emailsHtml = latest.emails.length > 0
+                    ? latest.emails.map(e => `<li>${e}</li>`).join('')
+                    : '<li>Ningún correo detectado</li>';
+
+                container.innerHTML = `
+                    <p><strong>ID Evidencia:</strong> ${latest.id}</p>
+                    <p><strong>Nivel de Riesgo:</strong> ${latest.risk.level} (${latest.risk.score}/100)</p>
+                    <hr style="border-color: var(--border); margin: 15px 0;">
+                    <h3>URLs Sospechosas:</h3>
+                    <ul>${urlsHtml}</ul>
+                    <h3>Correos Detectados:</h3>
+                    <ul>${emailsHtml}</ul>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
