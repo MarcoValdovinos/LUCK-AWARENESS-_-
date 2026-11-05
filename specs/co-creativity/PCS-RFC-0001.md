@@ -320,6 +320,22 @@ Durante el borrador 0.x, el mantenedor publica propuestas de cambio y conserva h
 
 La gobernanza de una futura versión estable debe incluir un proceso para propuestas, objeciones, decisiones, apelaciones y retiro de versiones inseguras. Este documento no crea una organización formal.
 
+## 13.1. Principio de Participación Abierta (Basado en RFC 9501)
+
+Para garantizar que el Protocolo de Co-Creatividad Simbiótica (PCS) evolucione de manera justa e inclusiva, el proyecto adopta formalmente los principios de participación abierta descritos en el RFC 9501 (BCP 239).
+
+### 13.1.1. Ausencia de Barreras Económicas
+La participación en el desarrollo, discusión y gobernanza del PCS DEBE ser gratuita. No debe existir ninguna tarifa de inscripción, suscripción o pago que actúe como barrera para que cualquier persona interesada contribuya a la evolución del estándar.
+
+### 13.1.2. Igualdad de Acceso
+Si en el futuro el proyecto organiza eventos presenciales o remotas (ej. "Hackathons" o reuniones del comité), DEBE existir una opción de participación remota gratuita que ofrezca el mismo nivel de interactividad y funcionalidad que las opciones de pago. 
+
+### 13.1.3. Transparencia y Privacidad
+Cualquier mecanismo utilizado para solicitar acceso gratuito (como una exención de tarifa en caso de que existan opciones de pago para eventos) DEBE ser confidencial, no invasivo, y no debe utilizarse para perjudicar o discriminar a los participantes que opten por la vía gratuita.
+
+### 13.1.4. Sostenibilidad Financiera
+Aunque el acceso al *estándar* (el texto del RFC y los validadores de código abierto) es y será siempre gratuito, los organizadores del proyecto se reservan el derecho de buscar patrocinios o cobrar por servicios de valor añadido (como consultoría, certificaciones de empresa o desarrollo a medida), asegurando que esto nunca limite el acceso al protocolo base ni a su gobernanza.
+
 ## 14. Consideraciones legales
 
 PCS es un formato técnico para organizar declaraciones y verificaciones. No otorga derechos de autor, no transfiere titularidad, no crea una licencia y no garantiza admisibilidad probatoria. Las reglas cambian por jurisdicción y tipo de obra. Cada proyecto debe enlazar por separado las licencias, autorizaciones y avisos aplicables.
@@ -467,6 +483,35 @@ Los vectores cubren:
 ## 19. Formatos de Fecha y Hora (RFC 3339)
 
 Para garantizar la interoperabilidad global y evitar ambigüedades en las marcas de tiempo, PCS 0.1 exige que todos los campos temporales (`occurred_at`, `recorded_at` y cualquier otro campo de fecha) cumplan estrictamente con el estándar **RFC 3339** (Perfil de ISO 8601 para Internet).
+## 20. Modelo de Administración y Sostenibilidad Financiera (Basado en RFC 8711)
+
+Para garantizar la supervivencia a largo plazo del PCS sin comprometer su neutralidad técnica, se establece una estricta separación entre la **gobernanza técnica** y la **administración financiera**, inspirada en el modelo de la IETF (RFC 8711).
+
+### 20.1. Separación de Poderes
+1. **Grupo de Trabajo Técnico (PCS-WG):** Responsable exclusivo de la evolución del protocolo, la revisión de código y la aprobación de nuevas versiones del RFC. Sus decisiones se basan estrictamente en consenso técnico y mérito.
+2. **Entidad Administrativa (PCS-Admin):** Una entidad legal (fundación, asociación o LLC) cuya única función es gestionar las finanzas, recibir patrocinios, pagar la infraestructura (dominios, servidores) y manejar los aspectos legales.
+
+### 20.2. Transparencia Financiera
+Cualquier entidad administrativa que respalde al PCS DEBE publicar anualmente:
+- Un estado de cuenta de ingresos (patrocinios, donaciones) y egresos (infraestructura, legal).
+- Una lista de los patrocinadores principales.
+- La justificación de cualquier gasto significativo.
+
+### 20.3. Prohibición de Captura Corporativa (Anti-Capture)
+Ningún patrocinador, donante o empresa (sin importar el monto de su contribución económica) obtendrá:
+- Derecho a voto en el PCS-WG.
+- Influencia directa sobre el contenido técnico del RFC.
+- Prioridad en la aprobación de sus implementaciones.
+*El dinero compra visibilidad (logos en la web), nunca poder de decisión sobre el estándar.*
+
+### 20.4. Política de Conflictos de Interés
+Los miembros del PCS-WG y de la entidad administrativa DEBEN declarar públicamente cualquier relación financiera o laboral con empresas que implementen o dependan del protocolo. Si un miembro tiene un conflicto de interés directo sobre una propuesta, debe abstenerse de votar.
+
+### 20.5. Sostenibilidad y Superávit
+Si la entidad administrativa genera un superávit (ganancias), este debe reinvertirse en:
+1. Auditorías de seguridad independientes para el protocolo.
+2. Financiamiento de becas para desarrolladores independientes (para mantener la diversidad técnica).
+3. Reservas operativas para garantizar la continuidad del proyecto por al menos 3 años sin necesidad de nuevos patrocinios.
 
 ### 19.1. Reglas de Formato
 1. **Fecha completa:** `YYYY-MM-DD`.
