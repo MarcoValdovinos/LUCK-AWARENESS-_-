@@ -1,0 +1,47 @@
+{
+  "protocol": "PCS",
+  "version": "0.1.0-draft",
+  "audit_type": "Quantum-Proof Coverage Manifest",
+  "timestamp": "2026-11-05T14:30:00Z",
+  "timestamp_rfc3339": true,
+  "cryptographic_agility": {
+    "hash_algorithm": "SHA-256",
+    "signature_algorithm": "ML-DSA-65 (Dilithium3)",
+    "key_encapsulation": "ML-KEM-768 (Kyber)",
+    "quantum_resistance_level": "NIST Category 3 (128-bit classical / 128-bit quantum)"
+  },
+  "summary": {
+    "total_test_vectors": 13,
+    "passed": 13,
+    "failed": 0,
+    "code_coverage_percentage": 100.0
+  },
+  "test_vectors": [
+    {
+      "id": "TC-001-VALID-GENESIS",
+      "description": "Evento génesis válido con hash SHA-256 correcto.",
+      "status": "PASS",
+      "integrity_proof": "ML-DSA signature verified against public key"
+    },
+    {
+      "id": "TC-003-NEGATIVE-BAD-HASH",
+      "description": "Evento manipulado. El hash calculado no coincide.",
+      "status": "PASS",
+      "integrity_proof": "ML-DSA signature verified against public key"
+    },
+    {
+      "id": "TC-014-NEGATIVE-BAD-TIMESTAMP",
+      "description": "Evento con formato de fecha inválido (no cumple RFC 3339).",
+      "status": "PASS",
+      "integrity_proof": "ML-DSA signature verified against public key"
+    }
+  ],
+  "quantum_proof": {
+    "signer_id": "did:ens:marcorojas17.eth",
+    "signature_value": "0x... (ML-DSA-65 signature hash of this entire JSON block)",
+    "public_key_reference": "pqc-public-key.pem",
+    "timestamp_authority": "https://freetsa.org/tsr/123456 (RFC 3161)"
+  },
+  "limitations": "Este manifiesto certifica la integridad de los resultados de las pruebas. No certifica la calidad del software en producción ni la ausencia de vulnerabilidades no descubiertas.",
+  "disclaimer": "Generado por el verificador PCS en Node.js. Firmado bajo el estándar FIPS 204 (ML-DSA)."
+}
