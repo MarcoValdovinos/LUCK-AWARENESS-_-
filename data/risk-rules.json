@@ -1,0 +1,34 @@
+{
+  "version": "1.0.0",
+  "description": "Reglas de puntuación para calcular el nivel de riesgo",
+  "thresholds": [
+    {
+      "min": 0,
+      "max": 24,
+      "level": "Bajo",
+      "css_class": "score-low",
+      "action": "Es probable que sea seguro, pero mantén precaución."
+    },
+    {
+      "min": 25,
+      "max": 49,
+      "level": "Medio",
+      "css_class": "score-medium",
+      "action": "Sospechoso. No hagas clic en enlaces ni compartas datos."
+    },
+    {
+      "min": 50,
+      "max": 79,
+      "level": "Alto",
+      "css_class": "score-high",
+      "action": "Peligroso. Bloquea al remitente y no interactúes."
+    },
+    {
+      "min": 80,
+      "max": 100,
+      "level": "Crítico",
+      "css_class": "score-critical",
+      "action": "Estafa inminente. Reporta y elimina inmediatamente."
+    }
+  ]
+}
