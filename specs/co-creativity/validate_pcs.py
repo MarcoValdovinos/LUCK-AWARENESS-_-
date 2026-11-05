@@ -1,76 +1,110 @@
-import json
-import sys
-import hashlib
+const crypto = require('crypto');
+const fs = require('fs');
 
-def canonicalize(data):
-    """Aproximación a JSON Canonicalization Scheme (JCS) de Python"""
-    return json.dumps(data, separators=(',', ':'), sort_keys=True).encode('utf-8')
-
-def validate_event(event):
-    # 1. Copia profunda sin event_hash ni signature
-    event_copy = {k: v for k, v in event.items() if k not in ['event_hash', 'signature']}
-    
-    # 2. Canonicalizar
-    canonical_bytes = canonicalize(event_copy)
-    
-    # 3. Calcular SHA-256
-    calculated_hash = hashlib.sha256(canonical_bytes).hexdigest()
-    
-    # 4. Comparar
-    declared_hash = event.get("event_hash", {}).get("value", "")
-    return calculated_hash == declared_hash
-
-def main():
-    if len(sys.argv) < 2:
-        print("Uso: python validate_pcs.py <event.json>")
-        sys.exit(1)
-        
-    filepath = sys.argv[1]
-    try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            event = json.load(f)
-    except Exception as e:
-        print(f"❌ Error leyendo JSON: {e}")
-        sys.exit(1)
-        
-    print(f"🔍 Validando evento: {event.get('event_id')}")
-    
-    if validate_event(event):
-        print("✅ Integridad verificada: El hash del evento es correcto.")
-        print(f"   Hash: {event['event_hash']['value']}")
-    else:
-        print("❌ ALERTA: El hash declarado no coincide con los datos.")
-        print(f"   Esperado: {event.get('event_hash', {}).get('value')}")
-        # Imprimir el calculado para depuración
-        event_copy = {k: v for k, v in event.items() if k not in ['event_hash', 'signature']}
-        print(f"   Calculado: {hashlib.sha256(canonicalize(event_copy)).hexdigest()}")
-
-if __name__ == "__main__":
-    main()
+/**
+ * Canonicalización aproximada (JCS - RFC 8785).
+ * En producción, usa una librería como 'canonicalize' de npm.
+ */
+function canonicalize(obj) {
+    return JSON.stringify(obj, Object.keys(obj).sort());
+}
 
 /**
  * Valida si un string cumple estrictamente con RFC 3339.
- * (Una simplificación del estándar para propósitos de PCS).
  */
 function isValidRFC3339(dateString) {
-    // Regex base para RFC 3339
     const rfc3339Regex = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?(Z|[+-]\d{2}:\d{2})$/;
+    if (!rfc3339Regex.test(dateString)) return false;
     
-    if (!rfc3339Regex.test(dateString)) {
-        return false;
-    }
-
     // Validar que sea una fecha real en el calendario
     const parsedDate = Date.parse(dateString);
-    if (isNaN(parsedDate)) {
-        return false;
-    }
+    if (isNaN(parsedDate)) return false;
 
     return true;
 }
 
-// Añadir esto dentro de tu función verifyEvent():
-// if (!isValidRFC3339(event.occurred_at)) {
-//     console.error("❌ FALLO: occurred_at no cumple con RFC 3339.");
-//     return false;
-// }
+/**
+ * Verifica la integridad de un evento calculando su hash.
+ */
+function verifyHash(event) {
+    // 1. Copia sin event_hash y signature
+    const eventCopy = { ...event };
+    delete eventCopy.event_hash;
+    delete eventCopy.signature;
+
+    // 2. Canonicalizar y hashear
+    const canonicalData = canonicalize(eventCopy);
+    const hash = crypto.createHash('sha256').update(canonicalData).digest('hex');
+    
+    // 3. Comparar
+    const declaredHash = event.event_hash ? event.event_hash.value : null;
+    
+    if (hash !== declaredHash) {
+        console.error(`❌ FALLO DE INTEGRIDAD. Esperado: ${declaredHash}, Calculado: ${hash}`);
+        return false;
+    }
+    
+    return true;
+}
+
+/**
+ * Verifica el encadenamiento de un array de eventos.
+ */
+function verifyChain(events) {
+    for (let i = 1; i < events.length; i++) {
+        const prevEvent = events[i - 1];
+        const currentEvent = events[i];
+
+        if (currentEvent.previous_event_hash !== prevEvent.event_hash.value) {
+            console.error(`❌ FALLO DE CADENA en el evento secuencia ${i}. El enlace no coincide.`);
+            return false;
+        }
+        if (currentEvent.sequence !== prevEvent.sequence + 1) {
+            console.error(`❌ FALLO DE SECUENCIA en el evento ${i}. Salto de índice.`);
+            return false;
+        }
+    }
+    return true;
+}
+
+// --- MODO DE PRUEBA AUTOMÁTICO ---
+if (require.main === module) {
+    console.log("🔱 Iniciando pruebas de verificación PCS 0.1...\n");
+    
+    try {
+        const testData = JSON.parse(fs.readFileSync('./test-vectors.json', 'utf8'));
+        let passed = 0;
+        let failed = 0;
+
+        testData.vectors.forEach((vector, index) => {
+            console.log(`▶ [${vector.id}] ${vector.description}`);
+            
+            // 1. Verificar formato de fecha RFC 3339
+            if (vector.event.occurred_at && !isValidRFC3339(vector.event.occurred_at)) {
+                console.error(`  ❌ FALLO: La fecha no cumple con RFC 3339 (${vector.event.occurred_at})`);
+                failed++;
+                return;
+            }
+
+            // 2. Verificar Hash
+            const hashResult = verifyHash(vector.event);
+            
+            // Comparamos el resultado con el esperado en el vector
+            if (hashResult === vector.expected_result) {
+                console.log(`  ✅ PASS\n`);
+                passed++;
+            } else {
+                console.error(`  ❌ FAIL (No coincidió con lo esperado)\n`);
+                failed++;
+            }
+        });
+
+        console.log(`\n📊 Resultados: ${passed} pasadas, ${failed} fallidas.`);
+        if (failed === 0) console.log("🎉 Todas las pruebas completadas correctamente.");
+        
+    } catch (e) {
+        console.error("Error ejecutando las pruebas:", e.message);
+    }
+}
+
+module.exports = { verifyHash, verifyChain, isValidRFC3339 };
