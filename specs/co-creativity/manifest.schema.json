@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Symbiotic Co-Creativity Manifest",
+  "description": "Esquema de registro para la declaración de aportes humanos y de IA en obras o artefactos.",
+  "type": "object",
+  "properties": {
+    "protocol_version": {
+      "type": "string",
+      "pattern": "^0\\.[0-9]+\\.[0-9]+$",
+      "description": "Versión del protocolo utilizada (ej. 0.1.0)"
+    },
+    "work_id": {
+      "type": "string",
+      "description": "Identificador único de la obra (UUIDv4 o Hash SHA-256)"
+    },
+    "version": {
+      "type": "string",
+      "description": "Versión de la obra que se está registrando (ej. v1.0, borrador-3)"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Fecha y hora ISO 8601 del registro"
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "Hash SHA-256 de la obra (integridad de los bytes)"
+    },
+    "contributions": {
+      "type": "array",
+      "description": "Lista de aportes declarados",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity_type": {
+            "type": "string",
+            "enum": ["human", "ai_model", "ai_agent", "hybrid"],
+            "description": "Tipo de entidad que realiza el aporte"
+          },
+          "entity_id": {
+            "type": "string",
+            "description": "Identificador del humano (ORCID, DID) o de la IA (nombre del modelo y versión)"
+          },
+          "contribution_type": {
+            "type": "string",
+            "enum": ["ideation", "prompting", "generation", "editing", "curation", "coding", "review"],
+            "description": "Naturaleza del aporte (sin declarar porcentajes de autoría)"
+          },
+          "consent_given": {
+            "type": "boolean",
+            "description": "Confirma que el participante humano otorgó su consentimiento"
+          }
+        },
+        "required": ["entity_type", "entity_id", "contribution_type", "consent_given"]
+      }
+    },
+    "signatures": {
+      "type": "array",
+      "description": "Firmas criptográficas que vinculan a los participantes con esta declaración",
+      "items": {
+        "type": "object",
+        "properties": {
+          "signer_id": { "type": "string" },
+          "signature_value": { "type": "string" },
+          "timestamp_proof": { "type": "string", "description": "Referencia a RFC 3161" }
+        }
+      }
+    },
+    "limitations_and_disputes": {
+      "type": "string",
+      "description": "Declaraciones sobre lo que este registro NO prueba (ej. 'Hash válido, autoría legal no evaluada')."
+    }
+  },
+  "required": ["protocol_version", "work_id", "version", "timestamp", "content_hash", "contributions", "limitations_and_disputes"]
+}
