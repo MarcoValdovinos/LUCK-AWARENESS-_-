@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRONOS · Base de Datos de Banderas Rojas</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+</head>
+<body>
+    <header>
+        <h1>🚩 Base de Datos de Banderas Rojas</h1>
+        <p>Glosario de patrones y palabras clave utilizadas por estafadores</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Patrones Detectados por KRONOS</h2>
+            <div id="flags-list">
+                <!-- Se llena con JavaScript -->
+            </div>
+            <a href="index.html" class="btn-secondary" style="display:block; text-align:center; text-decoration:none; margin-top:20px;">← Volver al Inicio</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>◯_● · 51/49/100 · KRONOS Luck-Awareness</p>
+    </footer>
+
+    <script src="js/red-flag-detector.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('flags-list');
+            let html = '';
+
+            RED_FLAGS.forEach(flag => {
+                html += `
+                    <div class="flag-item" style="border-left-color: var(--warning);">
+                        <strong style="color: var(--warning);">${flag.id.toUpperCase()} (Peso: ${flag.weight})</strong>
+                        <span style="color: #aaa; margin-top: 5px; display: block;">Palabras clave: ${flag.patterns.join(', ')}</span>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        });
+    </script>
+</body>
+</html>
