@@ -333,9 +333,6 @@ Si en el futuro el proyecto organiza eventos presenciales o remotas (ej. "Hackat
 ### 13.1.3. Transparencia y Privacidad
 Cualquier mecanismo utilizado para solicitar acceso gratuito (como una exención de tarifa en caso de que existan opciones de pago para eventos) DEBE ser confidencial, no invasivo, y no debe utilizarse para perjudicar o discriminar a los participantes que opten por la vía gratuita.
 
-### 13.1.4. Sostenibilidad Financiera
-Aunque el acceso al *estándar* (el texto del RFC y los validadores de código abierto) es y será siempre gratuito, los organizadores del proyecto se reservan el derecho de buscar patrocinios o cobrar por servicios de valor añadido (como consultoría, certificaciones de empresa o desarrollo a medida), asegurando que esto nunca limite el acceso al protocolo base ni a su gobernanza.
-
 ## 14. Consideraciones legales
 
 PCS es un formato técnico para organizar declaraciones y verificaciones. No otorga derechos de autor, no transfiere titularidad, no crea una licencia y no garantiza admisibilidad probatoria. Las reglas cambian por jurisdicción y tipo de obra. Cada proyecto debe enlazar por separado las licencias, autorizaciones y avisos aplicables.
@@ -443,6 +440,58 @@ El siguiente ejemplo es ilustrativo. Los valores de hash son marcadores y no deb
 - FIPS 180-4 — Secure Hash Standard (incluye SHA-256): https://csrc.nist.gov/pubs/fips/180-4/upd1/final
 - RFC 8032 — EdDSA/Ed25519: https://www.rfc-editor.org/rfc/rfc8032
 - RFC 3161 — protocolo de autoridad de sellado de tiempo: https://www.rfc-editor.org/rfc/rfc3161
+- RFC 2026 — The Internet Standards Process: https://www.rfc-editor.org/rfc/rfc2026
+
+## 18. Agilidad Criptográfica y Transición de Algoritmos
+
+Basado en precedentes como el retiro progresivo de SHA-1 por parte del NIST (FIPS 180-4 y SP 800-131A), PCS establece los siguientes lineamientos para evitar la obsolescencia criptográfica:
+
+1. **Algoritmo Actual Obligatorio:** PCS 0.1 exige el uso de SHA-256 para hashes de integridad y Ed25519 para firmas digitales.
+2. **Prohibición Explícita:** Ninguna implementación compatible con PCS 0.1 puede utilizar MD5, SHA-1 o RSA-1024 para calcular hashes o firmas.
+3. **Proceso de Transición:** Si un algoritmo es comprometido o un organismo de estandarización lo declara obsoleto, el comité de gobernanza publicará una nueva versión del protocolo.
+4. **Retrocompatibilidad:** Las versiones antiguas del protocolo seguirán siendo válidas para registros históricos, pero no para la generación de nuevos eventos. Los verificadores DEBEN advertir si un registro utiliza un algoritmo marcado como "deprecado".
+
+## 19. Formatos de Fecha y Hora (RFC 3339)
+
+Para garantizar la interoperabilidad global y evitar ambigüedades en las marcas de tiempo, PCS 0.1 exige que todos los campos temporales (`occurred_at`, `recorded_at` y cualquier otro campo de fecha) cumplan estrictamente con el estándar **RFC 3339** (Perfil de ISO 8601 para Internet).
+
+### 19.1. Reglas de Formato
+1. **Fecha completa:** `YYYY-MM-DD`.
+2. **Separador:** La letra `T` (mayúscula).
+3. **Hora completa:** `hh:mm:ss`.
+4. **Fracciones de segundo:** Opcionales (`hh:mm:ss.SSS`).
+5. **Offset obligatorio:** Se DEBE indicar la zona horaria usando `Z` (para UTC) o un offset numérico (`+hh:mm` o `-hh:mm`).
+6. **Prohibición:** NO se permite el uso de zonas horarias alfabéticas ni tiempos locales sin offset.
+7. **Segundos Bisiestos:** Un segundo bisiesto (ej. `1990-12-31T23:59:60Z`) es válido bajo este perfil y DEBE ser aceptado por el validador.
+
+## 20. Modelo de Administración y Sostenibilidad Financiera (Basado en RFC 8711)
+
+Para garantizar la supervivencia a largo plazo del PCS sin comprometer su neutralidad técnica, se establece una estricta separación entre la gobernanza técnica y la administración financiera, inspirada en el modelo de la IETF.
+
+1. **Separación de Poderes:** El Grupo de Trabajo Técnico (PCS-WG) evoluciona el protocolo. La Entidad Administrativa (PCS-Admin) gestiona finanzas e infraestructura.
+2. **Transparencia Financiera:** La entidad administrativa publicará anualmente sus estados de cuenta.
+3. **Prohibición de Captura Corporativa:** Ningún patrocinador obtendrá derecho a voto en el PCS-WG ni influencia sobre el contenido técnico. El dinero compra visibilidad, nunca poder de decisión.
+4. **Política de Conflictos de Interés:** Los miembros del PCS-WG DEBEN declarar cualquier relación con empresas que implementen el protocolo y abstenerse de votar en propuestas donde tengan conflicto.
+
+## 21. Proceso de Madurez y Estandarización (Basado en RFC 2026)
+
+Para que PCS sea reconocido como un estándar legítimo, adopta el modelo de madurez de la IETF:
+
+### 21.1. Niveles de Madurez
+- **PCS Borrador (Draft):** Estado actual. Documento en discusión, sujeto a cambios. Busca revisión pública.
+- **PCS Propuesto (Proposed Standard):** El documento es estable, ha resuelto problemas de diseño conocidos y cuenta con revisión de la comunidad. Exige al menos dos implementaciones independientes que interoperen.
+- **PCS Estándar (Internet Standard):** Alta madurez técnica y experiencia operativa comprobada en entornos de producción. Se convierte en la referencia global.
+
+### 21.2. El Proceso de Revisión (Last-Call)
+1. Toda propuesta de cambio se publica como un "Borrador de Internet" (Internet-Draft).
+2. Se abre un período de "Última Llamada" (Last-Call) de mínimo 14 días para comentarios públicos.
+3. Se busca "Consenso general y código funcional" (Rough consensus and running code).
+
+### 21.3. Propiedad Intelectual (IPR)
+El PCS utiliza una licencia libre (MIT/Open Source) para sus validadores de código y una licencia de texto abierto para su RFC. Cualquier contribución al estándar DEBE estar libre de patentes o, en su defecto, el contribuyente DEBE declarar una licencia "Royalty-Free" (Libre de Regalías) para su uso global.
+
+### 21.4. Resolución de Conflictos
+Si dos implementadores tienen un desacuerdo técnico, se escalará al PCS-WG. Si no se resuelve, se abrirá un foro público de discusión. Las decisiones finales de consenso técnico serán vinculantes para mantener la integridad del estándar.
 
 ## Apéndice A. Lista de verificación para una implementación
 
@@ -470,62 +519,6 @@ El siguiente ejemplo es ilustrativo. Los valores de hash son marcadores y no deb
 - Evaluación de la necesidad de múltiples algoritmos hash en futuras versiones.
 - Pruebas de conformidad mantenidas por más de una implementación independiente.
 
-## 18. Vectores de Prueba y Conformidad
-
-Para garantizar la interoperabilidad, el repositorio incluye un archivo `test-vectors.json` con casos de prueba reproducibles. Cualquier implementación debe pasar estos vectores usando el script `verify_pcs.js` provisto en Node.js (o su equivalente en otro lenguaje).
-
-Los vectores cubren:
-- **Pruebas positivas:** Hashes correctos, encadenamiento válido y firmas Ed25519 correctas.
-- **Pruebas negativas:** Alteración de bytes (hash incorrecto), salto de secuencia, y enlaces de cadena rotos.
-
-
-
-## 19. Formatos de Fecha y Hora (RFC 3339)
-
-Para garantizar la interoperabilidad global y evitar ambigüedades en las marcas de tiempo, PCS 0.1 exige que todos los campos temporales (`occurred_at`, `recorded_at` y cualquier otro campo de fecha) cumplan estrictamente con el estándar **RFC 3339** (Perfil de ISO 8601 para Internet).
-## 20. Modelo de Administración y Sostenibilidad Financiera (Basado en RFC 8711)
-
-Para garantizar la supervivencia a largo plazo del PCS sin comprometer su neutralidad técnica, se establece una estricta separación entre la **gobernanza técnica** y la **administración financiera**, inspirada en el modelo de la IETF (RFC 8711).
-
-### 20.1. Separación de Poderes
-1. **Grupo de Trabajo Técnico (PCS-WG):** Responsable exclusivo de la evolución del protocolo, la revisión de código y la aprobación de nuevas versiones del RFC. Sus decisiones se basan estrictamente en consenso técnico y mérito.
-2. **Entidad Administrativa (PCS-Admin):** Una entidad legal (fundación, asociación o LLC) cuya única función es gestionar las finanzas, recibir patrocinios, pagar la infraestructura (dominios, servidores) y manejar los aspectos legales.
-
-### 20.2. Transparencia Financiera
-Cualquier entidad administrativa que respalde al PCS DEBE publicar anualmente:
-- Un estado de cuenta de ingresos (patrocinios, donaciones) y egresos (infraestructura, legal).
-- Una lista de los patrocinadores principales.
-- La justificación de cualquier gasto significativo.
-
-### 20.3. Prohibición de Captura Corporativa (Anti-Capture)
-Ningún patrocinador, donante o empresa (sin importar el monto de su contribución económica) obtendrá:
-- Derecho a voto en el PCS-WG.
-- Influencia directa sobre el contenido técnico del RFC.
-- Prioridad en la aprobación de sus implementaciones.
-*El dinero compra visibilidad (logos en la web), nunca poder de decisión sobre el estándar.*
-
-### 20.4. Política de Conflictos de Interés
-Los miembros del PCS-WG y de la entidad administrativa DEBEN declarar públicamente cualquier relación financiera o laboral con empresas que implementen o dependan del protocolo. Si un miembro tiene un conflicto de interés directo sobre una propuesta, debe abstenerse de votar.
-
-### 20.5. Sostenibilidad y Superávit
-Si la entidad administrativa genera un superávit (ganancias), este debe reinvertirse en:
-1. Auditorías de seguridad independientes para el protocolo.
-2. Financiamiento de becas para desarrolladores independientes (para mantener la diversidad técnica).
-3. Reservas operativas para garantizar la continuidad del proyecto por al menos 3 años sin necesidad de nuevos patrocinios.
-
-### 19.1. Reglas de Formato
-1. **Fecha completa:** `YYYY-MM-DD`.
-2. **Separador:** La letra `T` (mayúscula).
-3. **Hora completa:** `hh:mm:ss`.
-4. **Fracciones de segundo:** Opcionales (`hh:mm:ss.SSS`).
-5. **Offset obligatorio:** Se DEBE indicar la zona horaria usando `Z` (para UTC) o un offset numérico (`+hh:mm` o `-hh:mm`).
-6. **Prohibición:** NO se permite el uso de zonas horarias alfabéticas (ej. "PST", "EST") ni el uso de tiempos locales sin offset.
-7. **Segundos Bisiestos:** Un segundo bisiesto (ej. `1990-12-31T23:59:60Z`) es válido bajo este perfil y DEBE ser aceptado por el validador.
-
-### 19.2. Ejemplos Válidos
-- `2026-11-05T12:00:00Z` (UTC)
-- `2026-11-05T12:00:00.500Z` (UTC con milisegundos)
-- `2026-11-05T06:00:00-06:00` (Hora local de México con offset)
 ---
 
 **Fin de PCS-RFC-0001, versión 0.1.0-draft.**
