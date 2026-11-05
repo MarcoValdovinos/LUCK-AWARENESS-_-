@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRONOS · Detector de Fraudes</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+</head>
+<body>
+    <header>
+        <h1>🛡️ KRONOS LUCK-AWARENESS</h1>
+        <p>Sistema de Detección y Documentación Antifraude</p>
+    </header>
+
+    <main>
+        <section class="input-section">
+            <h2>1. Analizar Mensaje Sospechoso</h2>
+            <textarea id="message-input" placeholder="Pega aquí el correo, SMS, mensaje de WhatsApp o URL sospechosa..."></textarea>
+            <button id="analyze-btn" class="btn-primary">Analizar Riesgo</button>
+        </section>
+
+        <section id="results-section" class="hidden">
+            <h2>2. Resultados del Análisis</h2>
+            <div id="risk-score-display" class="score-box">
+                <span class="score-value">0</span>
+                <span class="score-label">Bajo</span>
+            </div>
+            <div id="flags-container"></div>
+            <button id="save-evidence-btn" class="btn-secondary">Guardar Evidencia y Generar Reporte</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>◯_● · 51/49/100 · Privacidad por Diseño: Todo el análisis es local.</p>
+    </footer>
+
+    <script src="js/hash-utils.js"></script>
+    <script src="js/campaign-parser.js"></script>
+    <script src="js/red-flag-detector.js"></script>
+    <script src="js/risk-score.js"></script>
+    <script src="js/evidence-vault.js"></script>
+    <script src="js/report-generator.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
