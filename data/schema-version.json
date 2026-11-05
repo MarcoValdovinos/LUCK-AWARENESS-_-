@@ -1,0 +1,7 @@
+{
+  "app_version": "1.0.0",
+  "schema_version": "1.0.0",
+  "compatible_until": "2.0.0",
+  "last_migration": "2026-11-04",
+  "checksum_algorithm": "SHA-256"
+}
