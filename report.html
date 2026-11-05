@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRONOS · Historial de Reportes</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+</head>
+<body>
+    <header>
+        <h1>📁 Historial de Evidencias</h1>
+        <p>Reportes generados y guardados localmente en este dispositivo</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Tus Reportes</h2>
+            <div id="reports-container">
+                <!-- Se llena con JavaScript -->
+            </div>
+            <a href="index.html" class="btn-secondary" style="display:block; text-align:center; text-decoration:none; margin-top:20px;">← Volver al Inicio</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>◯_● · 51/49/100 · KRONOS Luck-Awareness</p>
+    </footer>
+
+    <script src="js/report-generator.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const history = JSON.parse(localStorage.getItem('kronos_evidence') || '[]');
+            const container = document.getElementById('reports-container');
+
+            if (history.length === 0) {
+                container.innerHTML = '<p style="color:#888;">No hay reportes guardados.</p>';
+                return;
+            }
+
+            let html = '';
+            // Mostrar los más recientes primero
+            [...history].reverse().forEach(ev => {
+                const date = new Date(ev.timestamp).toLocaleString();
+                const riskClass = ev.risk.score >= 50 ? 'var(--danger)' : 'var(--safe)';
+                
+                html += `
+                    <div class="flag-item" style="border-left-color: ${riskClass}; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <strong style="color: ${riskClass};">Riesgo: ${ev.risk.level}</strong>
+                            <span style="color: #555;">${ev.id}</span>
+                        </div>
+                        <span style="margin: 5px 0; display: block;">${date}</span>
+                        <button onclick="descargarReportePorId('${ev.id}')" class="btn-primary" style="padding: 5px; font-size: 0.8rem; margin-top: 10px;">Descargar HTML</button>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        });
+
+        // Función para volver a generar el HTML de un reporte antiguo
+        function descargarReportePorId(id) {
+            const history = JSON.parse(localStorage.getItem('kronos_evidence') || '[]');
+            const evidence = history.find(e => e.id === id);
+            
+            if (evidence) {
+                const reportHtml = generateReportHTML(evidence);
+                const blob = new Blob([reportHtml], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `KRONOS-Reporte-${evidence.id}.html`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+    </script>
+</body>
+</html>
