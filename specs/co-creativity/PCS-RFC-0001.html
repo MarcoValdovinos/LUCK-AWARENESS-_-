@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCS-RFC-0001 | Protocolo de Co-Creatividad Simbiótica</title>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --panel: #12121a;
+            --text: #e0e0ff;
+            --accent: #00ffcc;
+            --gold: #D4AF37;
+            --border: #2a2a3a;
+            --font: 'Courier New', Courier, monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        nav {
+            width: 280px;
+            background-color: var(--panel);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            font-size: 0.85rem;
+        }
+
+        nav h2 {
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        nav ul { list-style: none; }
+        nav ul li { margin-bottom: 8px; }
+        nav ul li a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        nav ul li a:hover { color: var(--gold); }
+
+        /* Main Content */
+        main {
+            margin-left: 280px;
+            padding: 40px;
+            max-width: 900px;
+            flex: 1;
+        }
+
+        .header-box {
+            text-align: center;
+            border: 1px solid var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            background: rgba(0, 255, 204, 0.05);
+            margin-bottom: 40px;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+        }
+
+        h1 {
+            color: var(--gold);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .meta-info {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .meta-info strong { color: var(--accent); }
+
+        h2 {
+            color: var(--gold);
+            font-size: 1.3rem;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent);
+            padding-left: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        p { margin-bottom: 15px; text-align: justify; }
+
+        ul, ol { margin-bottom: 15px; padding-left: 25px; }
+        li { margin-bottom: 5px; }
+
+        blockquote {
+            border-left: 3px solid var(--gold);
+            padding-left: 15px;
+            margin: 20px 0;
+            color: #aaa;
+            font-style: italic;
+            background: rgba(212, 175, 55, 0.05);
+            padding: 10px 15px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: rgba(0, 255, 204, 0.1);
+            color: var(--accent);
+        }
+        tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.02); }
+
+        /* Code Blocks */
+        pre {
+            background-color: #000;
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            color: var(--accent);
+            font-size: 0.85rem;
+        }
+        
+        code {
+            font-family: var(--font);
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            nav { position: relative; width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+            main { margin-left: 0; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h2>// ÍNDICE PCS 0.1</h2>
+        <ul>
+            <li><a href="#resumen">Resumen</a></li>
+            <li><a href="#sec1">1. Propósito y alcance</a></li>
+            <li><a href="#sec2">2. Principios de diseño</a></li>
+            <li><a href="#sec3">3. Terminología</a></li>
+            <li><a href="#sec4">4. Modelo de datos</a></li>
+            <li><a href="#sec5">5. Registro de eventos</a></li>
+            <li><a href="#sec6">6. Canonicalización</a></li>
+            <li><a href="#sec7">7. Correcciones y retiro</a></li>
+            <li><a href="#sec8">8. Estados de verificación</a></li>
+            <li><a href="#sec9">9. Privacidad</a></li>
+            <li><a href="#sec10">10. Modelo de amenazas</a></li>
+            <li><a href="#sec11">11. Conformidad</a></li>
+            <li><a href="#sec15">15. Ejemplo de manifiesto</a></li>
+            <li><a href="#sec16">16. Ejemplo de evento</a></li>
+            <li><a href="#sec17">17. Referencias</a></li>
+            <li><a href="#apendices">Apéndices A y B</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="header-box">
+            <h1>PCS-RFC-0001</h1>
+            <h2 style="border: none; text-align: center; padding: 0; margin-top: 5px; color: #fff; font-size: 1.1rem;">Protocolo de Co-Creatividad Simbiótica</h2>
+            
+            <div class="meta-info">
+                <div><strong>Versión:</strong> 0.1.0-draft</div>
+                <div><strong>Estado:</strong> Borrador de discusión</div>
+                <div><strong>Fecha:</strong> 5 de noviembre de 2026</div>
+                <div><strong>Idioma:</strong> español</div>
+                <div><strong>Autor:</strong> Marco Antonio Rojas Valdovinos</div>
+                <div><strong>Nombre corto:</strong> PCS</div>
+            </div>
+            <p style="font-size: 0.85rem; color: #aaa; text-align: center; font-style: italic;">
+                Este documento especifica un formato interoperable para registrar declaraciones de participación humana y de sistemas de IA. No certifica autoría, titularidad, originalidad, legalidad, calidad ni cumplimiento normativo.
+            </p>
+        </div>
+
+        <section id="resumen">
+            <h2>Resumen</h2>
+            <p>El Protocolo de Co-Creatividad Simbiótica (PCS) define un manifiesto JSON y un registro de eventos encadenados para describir, de manera verificable y con minimización de datos, un proceso creativo en el que participan una o más personas y herramientas o servicios de IA.</p>
+            <p>PCS separa cuatro conceptos que no deben confundirse:</p>
+            <ol>
+                <li><strong>Declaración:</strong> lo que una persona u organización afirma sobre el proceso.</li>
+                <li><strong>Integridad:</strong> si los bytes de una versión coinciden con los bytes identificados por su hash.</li>
+                <li><strong>Autenticación de firma:</strong> si una firma criptográfica corresponde a una clave pública determinada.</li>
+                <li><strong>Identidad, autoría y derechos:</strong> cuestiones que requieren pruebas y reglas externas al protocolo.</li>
+            </ol>
+            <p>Una implementación conforme puede comprobar los tres primeros aspectos dentro de sus límites. No puede inferir por sí sola quién creó una obra ni quién tiene derechos sobre ella.</p>
+        </section>
+
+        <section id="sec1">
+            <h2>1. Propósito y alcance</h2>
+            <p>PCS permite identificar un proyecto creativo y sus versiones, registrar declaraciones de contribución, señalar la intervención de IA, encadenar eventos para detectar alteraciones, verificar hashes y firmas, registrar consentimiento y correcciones, y permitir que distintas implementaciones interpreten los mismos datos.</p>
+            <p>PCS <strong>no</strong> decide autoría legal, no asigna porcentajes de autoría, no demuestra que una declaración sea verdadera, no prueba fechas de concepción sin fuente externa, no determina legalidad, no conserva prompts por defecto, y no sustituye a una autoridad legal.</p>
+        </section>
+
+        <section id="sec2">
+            <h2>2. Principios de diseño</h2>
+            <ol>
+                <li><strong>Agencia humana:</strong> las personas conservan la decisión de publicar, atribuir, corregir o retirar.</li>
+                <li><strong>Transparencia proporcional:</strong> revelar información suficiente sin exponer secretos.</li>
+                <li><strong>Atribución explícita:</strong> distinguir personas, organizaciones, modelos, herramientas y servicios.</li>
+                <li><strong>No antropomorfismo:</strong> un sistema automatizado es una herramienta, no un titular de derechos.</li>
+                <li><strong>Verificabilidad limitada:</strong> indicar qué se verificó y qué quedó fuera.</li>
+                <li><strong>Corrección sin borrado silencioso:</strong> los errores se corrigen mediante eventos que referencian la declaración anterior.</li>
+                <li><strong>Interoperabilidad:</strong> los datos básicos no dependen de un proveedor único.</li>
+                <li><strong>Privacidad desde el diseño:</strong> los datos sensibles y las claves privadas nunca forman parte del manifiesto público.</li>
+                <li><strong>Neutralidad de participación:</strong> no se presume que la proporción de texto, tiempo o tokens mida la autoría.</li>
+                <li><strong>No exclusividad histórica:</strong> el protocolo no reclama la invención de la co-creación humano-IA.</li>
+            </ol>
+        </section>
+
+        <section id="sec3">
+            <h2>3. Terminología</h2>
+            <ul>
+                <li><strong>Artefacto:</strong> archivo o conjunto de archivos creativos.</li>
+                <li><strong>Proyecto:</strong> contexto lógico que agrupa participantes, eventos y versiones.</li>
+                <li><strong>Participante:</strong> persona u organización que declara una contribución.</li>
+                <li><strong>Sistema de IA:</strong> modelo, servicio o agente automatizado que intervino.</li>
+                <li><strong>Manifiesto:</strong> documento JSON que identifica el proyecto y sus artefactos.</li>
+                <li><strong>Evento:</strong> registro inmutable de una declaración o cambio.</li>
+                <li><strong>Cadena:</strong> secuencia ordenada de eventos enlazados por hashes.</li>
+            </ul>
+        </section>
+
+        <section id="sec4">
+            <h2>4. Modelo de datos</h2>
+            <p>Un paquete PCS puede contener:</p>
+            <pre><code>pcs-package/
+├── manifest.json
+├── events/
+│   ├── 00000000.json
+│   └── 00000001.json
+├── signatures/                 # Opcional
+├── timestamps/                 # Opcional
+└── artifacts/                  # Opcional</code></pre>
+            <p>El paquete <strong>NO DEBE</strong> incluir claves privadas. La fecha del manifiesto es declarada por quien lo emite y no prueba por sí sola la fecha real de creación.</p>
+            <p>PCS 0.1 <strong>REQUIERE</strong> SHA-256 para los digests de los artefactos, calculados sobre los bytes exactos sin normalizar.</p>
+        </section>
+
+        <section id="sec5">
+            <h2>5. Registro de eventos</h2>
+            <p>Los eventos se numeran consecutivamente desde 0. El evento 0 es el génesis y usa <code>previous_event_hash: null</code>. Cada evento siguiente <strong>DEBE</strong> apuntar al hash del evento anterior. Los eventos publicados <strong>NO DEBEN</strong> editarse en silencio.</p>
+            <p>PCS 0.1 define tipos de eventos como <code>project_created</code>, <code>contribution_declared</code>, <code>artifact_created</code>, <code>dispute_opened</code>, etc.</p>
+        </section>
+
+        <section id="sec6">
+            <h2>6. Canonicalización y criptografía</h2>
+            <h3>6.1 Canonicalización</h3>
+            <p>Para construir el hash:</p>
+            <ol>
+                <li>Retirar <code>event_hash</code> y <code>signature</code>.</li>
+                <li>Serializar según <strong>JSON Canonicalization Scheme (JCS), RFC 8785</strong>.</li>
+                <li>Codificar como UTF-8.</li>
+                <li>Calcular SHA-256.</li>
+                <li>Representar como 64 caracteres hexadecimales en minúsculas.</li>
+            </ol>
+            <h3>6.3 Firmas</h3>
+            <p>Las firmas son <strong>OPCIONALES</strong> en PCS 0.1. Si existen, los verificadores <strong>DEBEN</strong> reconocer Ed25519 como suite base. La firma y la clave pública se codifican en base64url sin relleno.</p>
+        </section>
+
+        <section id="sec8">
+            <h2>8. Estados de verificación</h2>
+            <p>Un verificador PCS <strong>DEBERÍA</strong> informar resultados independientes, nunca un único sello ambiguo de "auténtico".</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dimensión</th>
+                        <th>Valores recomendados</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Formato</td><td><code>valid</code>, <code>invalid</code>, <code>unsupported</code></td></tr>
+                    <tr><td>Cadena</td><td><code>intact</code>, <code>broken</code>, <code>incomplete</code></td></tr>
+                    <tr><td>Hash del artefacto</td><td><code>match</code>, <code>mismatch</code>, <code>not_checked</code></td></tr>
+                    <tr><td>Firma</td><td><code>valid</code>, <code>invalid</code>, <code>absent</code>, <code>unsupported</code></td></tr>
+                    <tr><td>Identidad del firmante</td><td><code>corroborated</code>, <code>unverified</code></td></tr>
+                    <tr><td>Marca de tiempo</td><td><code>verified</code>, <code>unverified</code>, <code>absent</code></td></tr>
+                    <tr><td>Declaración</td><td><code>asserted</code>, <code>disputed</code>, <code>corrected</code></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="sec15">
+            <h2>15. Ejemplo de manifiesto</h2>
+            <pre><code>{
+  "protocol": "https://example.org/pcs/0.1",
+  "manifest_id": "0f2e291d-9fb9-4d62-bfb6-bf0c22b38c21",
+  "created_at": "2026-11-05T12:00:00Z",
+  "project": {
+    "project_id": "urn:uuid:7d5f2f39-7e2c-4a48-94c8-a8d7a120c7d4",
+    "title": "Ejemplo educativo",
+    "description": "Ejemplo ficticio para ilustrar PCS 0.1."
+  },
+  "participants": [
+    {
+      "participant_id": "person-001",
+      "kind": "human",
+      "display_name": "Participante A",
+      "role": "dirección y selección",
+      "identity_status": "self-asserted"
+    },
+    {
+      "participant_id": "ai-001",
+      "kind": "ai_system",
+      "display_name": "Sistema de generación de ejemplo",
+      "role": "asistencia en borradores",
+      "system": {
+        "provider": "unknown",
+        "model": "unknown",
+        "version": "unknown"
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "artifact-001",
+      "version_id": "v1",
+      "label": "Borrador final",
+      "media_type": "text/plain",
+      "byte_length": 0,
+      "digest": {
+        "algorithm": "sha-256",
+        "value": "REPLACE_WITH_64_LOWERCASE_HEX_CHARACTERS"
+      },
+      "availability": "external"
+    }
+  ],
+  "event_log": {
+    "format": "pcs-json-events-v0.1",
+    "events_uri": "./events/",
+    "first_sequence": 0,
+    "last_sequence": 1,
+    "last_event_hash": "REPLACE_WITH_64_LOWERCASE_HEX_CHARACTERS"
+  },
+  "disclaimer": "Las contribuciones y roles son declaraciones; este manifiesto no adjudica autoría ni derechos."
+}</code></pre>
+        </section>
+
+        <section id="sec17">
+            <h2>17. Referencias normativas</h2>
+            <ul>
+                <li><strong>RFC 3339</strong> — fecha y hora en Internet</li>
+                <li><strong>RFC 8785</strong> — JSON Canonicalization Scheme (JCS)</li>
+                <li><strong>FIPS 180-4</strong> — Secure Hash Standard (incluye SHA-256)</li>
+                <li><strong>RFC 8032</strong> — EdDSA/Ed25519</li>
+                <li><strong>RFC 3161</strong> — protocolo de autoridad de sellado de tiempo</li>
+            </ul>
+        </section>
+
+        <section id="apendices">
+            <h2>Apéndice A. Lista de verificación para una implementación</h2>
+            <ul>
+                <li>Validar JSON UTF-8 y rechazar claves duplicadas.</li>
+                <li>Validar UUID, fechas RFC 3339, secuencias y tipos conocidos.</li>
+                <li>Canonicalizar con JCS antes del cálculo de hash.</li>
+                <li>Recalcular cada hash; no confiar en el valor recibido.</li>
+                <li>Verificar los enlaces desde el génesis.</li>
+                <li>Verificar hashes de artefactos sobre bytes exactos.</li>
+                <li>Verificar firmas solo cuando se disponga de una clave pública.</li>
+                <li>Reportar por separado firma, identidad, integridad y declaración.</li>
+                <li>No usar <code>innerHTML</code> con contenido no confiable.</li>
+                <li>No cargar claves privadas en el navegador o en el paquete.</li>
+                <li>Ofrecer exportación del resultado y de los errores.</li>
+                <li>No mostrar etiquetas como "auténtico" basadas solo en SHA-256.</li>
+            </ul>
+        </section>
+
+        <div class="footer">
+            <p>◯_● · 51/49/100 · KRONOS · PCS 0.1.0-draft</p>
+            <p>Fin de PCS-RFC-0001, versión 0.1.0-draft.</p>
+        </div>
+    </main>
+
+</body>
+</html>
