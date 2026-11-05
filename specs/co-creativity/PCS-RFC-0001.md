@@ -454,6 +454,13 @@ El siguiente ejemplo es ilustrativo. Los valores de hash son marcadores y no deb
 - Evaluación de la necesidad de múltiples algoritmos hash en futuras versiones.
 - Pruebas de conformidad mantenidas por más de una implementación independiente.
 
+## 18. Vectores de Prueba y Conformidad
+
+Para garantizar la interoperabilidad, el repositorio incluye un archivo `test-vectors.json` con casos de prueba reproducibles. Cualquier implementación debe pasar estos vectores usando el script `verify_pcs.js` provisto en Node.js (o su equivalente en otro lenguaje).
+
+Los vectores cubren:
+- **Pruebas positivas:** Hashes correctos, encadenamiento válido y firmas Ed25519 correctas.
+- **Pruebas negativas:** Alteración de bytes (hash incorrecto), salto de secuencia, y enlaces de cadena rotos.
 ---
 
 **Fin de PCS-RFC-0001, versión 0.1.0-draft.**
