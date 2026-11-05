@@ -1,0 +1,35 @@
+{
+  "protocol_version": "0.1.0",
+  "work_id": "a4ff808e-5204-1604-0535-8537",
+  "version": "v1.0",
+  "timestamp": "2026-11-05T14:30:00Z",
+  "content_hash": "41a3683bbf83296eeb45da9b0e0ea5a7c095e78b493772e79520a92dbc39f4c3",
+  "contributions": [
+    {
+      "entity_type": "human",
+      "entity_id": "did:ens:marcorojas17.eth",
+      "contribution_type": "ideation",
+      "consent_given": true
+    },
+    {
+      "entity_type": "human",
+      "entity_id": "did:ens:marcorojas17.eth",
+      "contribution_type": "review",
+      "consent_given": true
+    },
+    {
+      "entity_type": "ai_model",
+      "entity_id": "openai/gpt-4o-2026-10",
+      "contribution_type": "generation",
+      "consent_given": true
+    }
+  ],
+  "signatures": [
+    {
+      "signer_id": "did:ens:marcorojas17.eth",
+      "signature_value": "0x8ca8e84e1258abac9acb29d14d25114e4775d782ecfda51ae29933247ed2970e...",
+      "timestamp_proof": "https://freetsa.org/tsr/123456"
+    }
+  ],
+  "limitations_and_disputes": "Este registro documenta la procedencia y el consentimiento declarado. El hash SHA-256 prueba la integridad de los bytes a la fecha indicada. No constituye una determinación legal de autoría bajo leyes de propiedad intelectual."
+}
