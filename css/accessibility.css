@@ -1,0 +1,12 @@
+/* Foco visible para navegación por teclado */
+*:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* Alto contraste */
+@media (prefers-contrast: high) {
+    :root { --text: #ffffff; --bg: #000000; --border: #ffffff; }
+}
