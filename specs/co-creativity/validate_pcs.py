@@ -47,3 +47,30 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+/**
+ * Valida si un string cumple estrictamente con RFC 3339.
+ * (Una simplificación del estándar para propósitos de PCS).
+ */
+function isValidRFC3339(dateString) {
+    // Regex base para RFC 3339
+    const rfc3339Regex = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?(Z|[+-]\d{2}:\d{2})$/;
+    
+    if (!rfc3339Regex.test(dateString)) {
+        return false;
+    }
+
+    // Validar que sea una fecha real en el calendario
+    const parsedDate = Date.parse(dateString);
+    if (isNaN(parsedDate)) {
+        return false;
+    }
+
+    return true;
+}
+
+// Añadir esto dentro de tu función verifyEvent():
+// if (!isValidRFC3339(event.occurred_at)) {
+//     console.error("❌ FALLO: occurred_at no cumple con RFC 3339.");
+//     return false;
+// }
