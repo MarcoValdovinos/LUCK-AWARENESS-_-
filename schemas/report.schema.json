@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Report",
+  "description": "Esquema de validación para los reportes generados",
+  "type": "object",
+  "properties": {
+    "report_id": { "type": "string" },
+    "evidence_id": { "type": "string" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "format": { "type": "string", "enum": ["HTML", "JSON", "PDF"] },
+    "content_hash": { "type": "string" },
+    "signature": { "type": "string", "description": "Firma digital del reporte" }
+  },
+  "required": ["report_id", "evidence_id", "generated_at", "format", "content_hash"]
+}
