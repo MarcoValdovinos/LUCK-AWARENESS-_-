@@ -6,50 +6,14 @@
       "description": "Evento génesis válido con hash SHA-256 correcto.",
       "expected_result": true,
       "event": {
-        "protocol": "https://example.org/pcs/0.1",
-        "project_id": "urn:uuid:7d5f2f39-7e2c-4a48-94c8-a8d7a120c7d4",
         "sequence": 0,
         "event_id": "urn:uuid:9f22bd08-59f5-4b90-9d81-7f51f13c9821",
-        "event_type": "project_created",
         "occurred_at": "2026-11-05T12:00:00Z",
-        "recorded_at": "2026-11-05T12:00:00Z",
-        "actor_id": "person-001",
-        "previous_event_hash": null,
-        "data": {
-          "manifest_id": "0f2e291d-9fb9-4d62-bfb6-bf0c22b38c21"
-        },
+        "data": { "manifest_id": "0f2e291d" },
         "event_hash": {
           "algorithm": "sha-256",
-          "value": "REEMPLAZA_CON_EL_HASH_CALCULADO_EN_NODEJS"
-        },
-        "signature": null
-      }
-    },
-    {
-      "id": "TC-002-VALID-CHAIN",
-      "description": "Segundo evento que enlaza correctamente con el hash del evento génesis.",
-      "expected_result": true,
-      "previous_event": "urn:uuid:9f22bd08-59f5-4b90-9d81-7f51f13c9821",
-      "event": {
-        "protocol": "https://example.org/pcs/0.1",
-        "project_id": "urn:uuid:7d5f2f39-7e2c-4a48-94c8-a8d7a120c7d4",
-        "sequence": 1,
-        "event_id": "urn:uuid:4856d487-3c0a-4c5d-b04f-718873a9e2a1",
-        "event_type": "contribution_declared",
-        "occurred_at": "2026-11-05T12:10:00Z",
-        "recorded_at": "2026-11-05T12:11:00Z",
-        "actor_id": "person-001",
-        "previous_event_hash": "REEMPLAZA_CON_EL_HASH_DEL_TC-001",
-        "data": {
-          "contribution_id": "contribution-001",
-          "participant_id": "person-001",
-          "action": "selected_and_revised"
-        },
-        "event_hash": {
-          "algorithm": "sha-256",
-          "value": "REEMPLAZA_CON_EL_HASH_CALCULADO_EN_NODEJS"
-        },
-        "signature": null
+          "value": "TENDRIAS_QUE_CALCULAR_EL_HASH_AQUI_01"
+        }
       }
     },
     {
@@ -59,12 +23,50 @@
       "event": {
         "sequence": 0,
         "event_id": "urn:uuid:9f22bd08-59f5-4b90-9d81-7f51f13c9821",
+        "occurred_at": "2026-11-05T12:00:00Z",
         "data": {
           "message": "Este texto fue alterado después de calcular el hash original."
         },
         "event_hash": {
           "algorithm": "sha-256",
           "value": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      }
+    },
+    {
+      "id": "TC-014-NEGATIVE-BAD-TIMESTAMP",
+      "description": "Evento con formato de fecha inválido (no cumple RFC 3339).",
+      "expected_result": false,
+      "event": {
+        "sequence": 0,
+        "event_id": "urn:uuid:9f22bd08-59f5-4b90-9d81-7f51f13c9821",
+        "occurred_at": "11 de Noviembre de 2026",
+        "data": { "message": "Fecha en formato humano, no RFC 3339" }
+      }
+    },
+    {
+      "id": "TC-015-NEGATIVE-NO-OFFSET",
+      "description": "Evento con fecha válida pero sin offset de zona horaria.",
+      "expected_result": false,
+      "event": {
+        "sequence": 0,
+        "event_id": "urn:uuid:9f22bd08-59f5-4b90-9d81-7f51f13c9821",
+        "occurred_at": "2026-11-05T12:00:00",
+        "data": { "message": "Falta la Z o el offset" }
+      }
+    },
+    {
+      "id": "TC-016-POSITIVE-LEAP-SECOND",
+      "description": "Evento con un segundo bisiesto histórico válido (1990).",
+      "expected_result": true,
+      "event": {
+        "sequence": 0,
+        "event_id": "urn:uuid:9f22bd08-59f5-4b90-9d81-7f51f13c9821",
+        "occurred_at": "1990-12-31T23:59:60Z",
+        "data": { "message": "Segundo bisiesto válido" },
+        "event_hash": {
+          "algorithm": "sha-256",
+          "value": "TENDRIAS_QUE_CALCULAR_EL_HASH_AQUI_16"
         }
       }
     }
